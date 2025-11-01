@@ -12,7 +12,7 @@ if ($conn->connect_error) {
 }
 
 $user_id = $_SESSION['id'] ?? 1; // Giả sử ID = 1 nếu chưa đăng nhập/test
-
+$resume_id = $_GET['id'] ?? 0;
 
 $sql_resume = "SELECT * FROM resumes WHERE user_id = ? AND resume_id = ?"; 
 $stmt_resume = $conn->prepare($sql_resume);
@@ -22,7 +22,7 @@ $data_resume = $stmt_resume->get_result()->fetch_assoc();
 $stmt_resume->close();
 
 if (!$data_resume) {
-    // Nếu không có bản ghi resumes, tạo một bản ghi rỗng để tránh lỗi
+
     $data_resume = [
         'title' => 'Vị trí Ứng tuyển', 
         'skills' => '', 
@@ -37,6 +37,9 @@ $experience_list = json_decode($data_resume['experience'] ?? '[]', true) ?: [];
 $education_list = json_decode($data_resume['education'] ?? '[]', true) ?: [];
 
 
+// ==========================================================
+// B. TRUY VẤN DỮ LIỆU TỪ BẢNG USERS (THÔNG TIN CÁ NHÂN)
+// ==========================================================
 $sql_user = "SELECT name, email, phone, address FROM users WHERE user_id = ?"; 
 $stmt_user = $conn->prepare($sql_user);
 $stmt_user->bind_param("i", $user_id); 
@@ -48,9 +51,7 @@ $name = htmlspecialchars($data_user['name'] ?? 'HỌ TÊN CỦA BẠN');
 $email = htmlspecialchars($data_user['email'] ?? 'email@example.com');
 $phone = htmlspecialchars($data_user['phone'] ?? '000-000-0000');
 $address = htmlspecialchars($data_user['address'] ?? 'Địa chỉ hiện tại');
-$image_path = 'duong_dan_anh_dai_dien.jpg'; // Cần thêm trường này vào users hoặc xử lý khác
-
-
+$image_path = 'duong_dan_anh_dai_dien.jpg'; 
 $title = htmlspecialchars($data_resume['title'] ?? 'VỊ TRÍ ỨNG TUYỂN');
 $summary = htmlspecialchars($data_resume['summary'] ?? 'Chưa có tóm tắt.');
 $skills_raw = htmlspecialchars($data_resume['skills'] ?? '');
@@ -58,11 +59,11 @@ $skills_list = array_map('trim', explode(',', $skills_raw));
 
 function get_fancy_icon($type) {
     $icons = [
-        'phone'    => '&#x1F4DE;', // 📞
-        'email'    => '&#x2709;',  // ✉
-        'location' => '&#x1F4CD;', // 📍
-        'company'  => '&#x1F3E2;', // 🏢
-        'education'=> '&#x1F393;', // 🎓
+        'phone'    => '&#x1F4DE;', 
+        'email'    => '&#x2709;',
+        'location' => '&#x1F4CD;',
+        'company'  => '&#x1F3E2;',
+        'education'=> '&#x1F393;',
     ];
     return $icons[$type] ?? '&#x2022;';
 }
@@ -73,7 +74,7 @@ function get_fancy_icon($type) {
     <meta charset="UTF-8">
     <title>CV: <?= $name ?></title>
     <style>
-
+       
         body { 
             font-family: DejaVu Sans, sans-serif; 
             margin: 0; padding: 0; font-size: 10pt; color: #333; line-height: 1.4;
@@ -84,12 +85,12 @@ function get_fancy_icon($type) {
         }
         
         :root {
-            --primary-color: #004d99; /* Xanh Navy đậm */
-            --accent-color: #007bff; /* Xanh sáng hơn */
-            --light-bg: #f5f5f5; /* Nền sidebar nhẹ */
+            --primary-color: #004d99;
+            --accent-color: #007bff;
+            --light-bg: #f5f5f5;
         }
 
-        /* SIDEBAR (35%) */
+       
         .sidebar { 
             flex-basis: 35%; padding: 30px 20px; box-sizing: border-box; background-color: var(--light-bg);
         }
@@ -120,7 +121,7 @@ function get_fancy_icon($type) {
              line-height: 1.5;
         }
         
-        /* MAIN CONTENT (65%) */
+      
         .main-content { 
             flex-basis: 65%; padding: 30px 40px; box-sizing: border-box; 
         }
@@ -158,13 +159,10 @@ function get_fancy_icon($type) {
         
         <div class="sidebar">
             
-            <div>
-                
+            <div class="profile-photo">
+                <img src="assets/user/images/8.png" alt="Ảnh đại diện">
             </div>
-           <div class="main-header">
-                <h1><?= $name ?></h1>
-            
-            </div>
+
             <div class="contact-info">
                 <div class="contact-item">
                     <span class="icon"><?= get_fancy_icon('phone') ?></span>
@@ -193,8 +191,14 @@ function get_fancy_icon($type) {
             <?php else: ?>
                 <p>Chưa có thông tin kỹ năng.</p>
             <?php endif; ?>
-             <div class="main-content">
+        </div>
+
+        <div class="main-content">
             
+            <div class="main-header">
+                <h1><?= $name ?></h1>
+                <p><?= $title ?></p>
+            </div>
 
             <h2 class="section-title">Tóm Tắt Nghề Nghiệp</h2>
             <div class="summary-block">
@@ -208,11 +212,12 @@ function get_fancy_icon($type) {
                 <?php foreach ($experience_list as $exp): ?>
                     <div class="job-block">
                         <div class="job-header">
+                            <h3><?= get_fancy_icon('company') ?> <?= htmlspecialchars($exp['company'] ?? 'Tên Công ty') ?>: Viettel</h3>
                             
                         </div>
                         
                         <ul class="job-description">
-                            <li><?= nl2br(htmlspecialchars($exp['description'] ?? 'Mô tả công việc (Chưa cập nhật)')) ?></li>
+                            <li>Mô tả công việc: <?= nl2br(htmlspecialchars($exp['description'] ?? 'Mô tả công việc (Chưa cập nhật)')) ?></li>
                         </ul>
                     </div>
                 <?php endforeach; ?>
@@ -225,16 +230,13 @@ function get_fancy_icon($type) {
                 <?php foreach ($education_list as $edu): ?>
                     <div class="job-block">
                         <div class="job-header">
-                            <h3><?= get_fancy_icon('education') ?>Học trường: <?= htmlspecialchars($edu['school'] ?? 'Tên Trường/Đơn vị') ?></h3>
-                            <p class="duration">Tốt nghiệp: <?= htmlspecialchars($edu['year'] ?? '2025') ?></p>
+                            <h3><?= get_fancy_icon('education') ?> <?= htmlspecialchars($edu['school'] ?? 'Tên Trường/Đơn vị') ?></h3>
+                            
                         </div>
-                       
+                        
                 <?php endforeach; ?>
             <?php endif; ?>
         </div>
-        </div>
-
-       
         
     </div>
 </body>

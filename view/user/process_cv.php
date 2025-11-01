@@ -62,18 +62,15 @@ foreach ($experience_data as $entry) {
 
 $experience_json = $conn->real_escape_string(json_encode(array_values($clean_experience)));
 
-// b) Xử lý Học vấn (education) - CHỈ GIỮ LẠI CỘT 'school'
 $education_data = $_POST['education'] ?? [];
 $clean_education = [];
 
-// Lặp qua mảng đa chiều
+
 foreach ($education_data as $entry) {
-    // Chúng ta chỉ quan tâm đến cột 'school'
+
     $school = $entry['school'] ?? '';
-    
-    // Kiểm tra nếu cột 'school' (tên trường) không rỗng
     if (!empty(trim($school))) {
-        // Lưu dữ liệu dưới dạng mảng key/value để giữ cấu trúc
+
         $clean_education[] = ['school' => $school];
     }
 }
@@ -81,7 +78,7 @@ foreach ($education_data as $entry) {
 $education_json = $conn->real_escape_string(json_encode(array_values($clean_education)));
    
 if ($resume_id) {
-        // CẬP NHẬT (UPDATE) CV ĐÃ TỒN TẠI
+       
         $sql = "UPDATE resumes SET 
                     title = '$cv_title',
                     summary = '$summary',

@@ -116,30 +116,24 @@ $default_image_path = $cv_templates[$default_template_key]['image'];
 <script>
 $(document).ready(function() {
     
-    // Khởi tạo danh sách mẫu từ PHP
+
     var templates = <?= json_encode($cv_templates) ?>;
 
-    // --- LOGIC HIỂN THỊ MẪU TĨNH KHI NHẤN NÚT ---
     $('.template-select-btn').on('click', function() {
-        // 1. Lấy KEY của mẫu được chọn
+
         var selectedKey = $(this).data('template-key'); 
 
-        // 2. Lấy đường dẫn ảnh và tên mẫu mới
         var newImagePath = templates[selectedKey].image;
         var newName = templates[selectedKey].name;
 
-        // 3. Cập nhật thẻ <img>
         $('#template-image').attr('src', newImagePath);
 
-        // 4. Cập nhật tên mẫu
         $('#template-name-display').text(newName);
         
-        // 5. Cập nhật trạng thái nút (làm nổi bật nút đang được chọn)
         $('.template-select-btn').removeClass('btn-info').addClass('btn-primary');
         $(this).removeClass('btn-primary').addClass('btn-info');
     });
 
-    // Kích hoạt nút mặc định khi tải trang
     $('.template-select-btn[data-template-key="<?= $default_template_key ?>"]').click();
 });
 </script>

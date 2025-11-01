@@ -276,7 +276,6 @@ if ($user_id) {
 
             var templates = <?= json_encode($cv_templates) ?>;
 
-            // --- LOGIC CHUYỂN ĐỔI CHẾ ĐỘ XEM ---
             $('#start-creation-btn').on('click', function() {
                 $('#template-selection-view').hide();
                 $('#template-buttons-container').hide(); // Ẩn nút chọn mẫu ở cột phải
@@ -289,20 +288,16 @@ if ($user_id) {
                 $('#template-selection-view').fadeIn(300);
             });
 
-            // --- LOGIC CHỌN MẪU CV (CẬP NHẬT TRƯỜNG ẨN) ---
             $('.template-select-btn').on('click', function() {
                 var selectedKey = $(this).data('template-key');
                 var newImagePath = templates[selectedKey].image;
                 var newName = templates[selectedKey].name;
 
-                // Cập nhật ảnh và tên mẫu tham khảo
                 $('#template-image').attr('src', newImagePath);
                 $('#template-name-display').text(newName);
 
-                // Cập nhật trường ẩn để gửi template_used khi submit form
                 $('#hidden-template-used').val(selectedKey);
 
-                // Cập nhật trạng thái nút
                 $('.template-select-btn').removeClass('btn-info').addClass('btn-primary');
                 $(this).removeClass('btn-primary').addClass('btn-info');
             });
@@ -311,9 +306,6 @@ if ($user_id) {
             $('.template-select-btn[data-template-key="<?= $cv_data['template_used'] ?>"]').click();
 
 
-            // --- LOGIC THÊM/XÓA MỤC ĐỘNG (KINH NGHIỆM & HỌC VẤN) ---
-
-            // Lấy số lượng mục hiện có để khởi tạo index cho mục mới
             let experienceCount = $('#experience-section').children().length;
             let educationCount = $('#education-section').children().length;
 

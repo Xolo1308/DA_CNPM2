@@ -423,7 +423,7 @@ $result = mysqli_query($conn, $sql);
                         // Tạo đường dẫn logo. Sử dụng 'default.png' nếu không có logo nào
                         $logo_path = 'uploads/logo/' . htmlspecialchars($row['company_logo'] ?: 'default.png');
                     ?>
-                    <a href="job_detail.php?id=<?= $row['job_id'] ?>">
+                    <a href="index.php?page=user_detail_job&id=<?= $row['job_id'] ?>">
                         <img src="<?= $logo_path ?>" alt="<?= htmlspecialchars($row['company_name']) ?> Logo" 
                             style="width: 100%; height: 200px; object-fit: cover;" /> 
                     </a>
@@ -450,7 +450,7 @@ $result = mysqli_query($conn, $sql);
                         <li>Ngày đăng:<?= date("d/m/Y", strtotime($row['created_at'])) ?></li>
                     </ul>
                     
-                    <a href="job_detail.php?id=<?= $row['job_id'] ?>" class="theme-btn btn-style-one">Ứng tuyển</a>
+                    <a href="index.php?page=user_detail_job&id=<?= $row['job_id'] ?>" class="theme-btn btn-style-one">Xem thông tin </a>
                 </div>
             </div>
         </div>

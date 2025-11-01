@@ -110,6 +110,8 @@ case 'user_detail_cv':
 case 'user_process_cv':
 case 'user_process_pdf':
 case 'user_list_pdf':
+case 'user_detail_pdf':
+case 'user_delete_pdf':
     if (isset($_SESSION["role"]) && $_SESSION["role"] == '0') {
         switch ($page) {
             case 'user_list_cv':
@@ -124,9 +126,16 @@ case 'user_list_pdf':
              case 'user_process_pdf':
                 include 'view/user/generate_pdf.php';
                 break;
-                 case 'user_list_pdf':
+            case 'user_list_pdf':
                 include 'view/user/list_pdf.php';
                 break;
+             case 'user_detail_pdf':
+                include 'view/user/detail_pdf.php';
+                break;
+            case 'user_delete_pdf':
+                include 'view/user/delete_pdf.php';
+                break;
+            
         }
     } else {
         echo "<script>alert('Chỉ doanh nghiệp mới được truy cập mục này!'); window.location='index.php';</script>";
