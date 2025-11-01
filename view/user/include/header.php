@@ -111,21 +111,13 @@
                         
                         <div class="navbar-collapse collapse clearfix" id="navbarSupportedContent">
                             <ul class="navigation clearfix">
-                                <li class="current dropdown"><a href="#">Làm việc </a>
+                                <li><a href="index.php?page=user_list_job">Làm việc </a>
 									
 								</li>
 
-
-								<li><a href="view/user/login.php">Công ty</a>
-									
+								<li><a href="index.php?page=user_list_cv">Tạo Cv mẫu</a>									
 								</li>
-								<li class="dropdown"><a href="#">Tạo Cv mẫu</a>
-									<ul>
-										
-									</ul>
-								</li>
-                                <li class="dropdown"><a href="#">Đánh giá ứng viên</a>
-							
+                               
 						        </li>
 								<li class="dropdown"><a href="#">Cẩm nang nghề nghiệp</a>
 

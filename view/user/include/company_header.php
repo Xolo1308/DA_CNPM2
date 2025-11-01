@@ -111,12 +111,12 @@
                         
                             <div class="navbar-collapse collapse clearfix" id="navbarSupportedContent">
                                 <ul class="navigation clearfix">
-                                    <li class="current dropdown"><a href="#">Làm việc </a>
+                                    <li ><a href="index.php?page=user_list_tintuc">Làm việc </a>
                                         
                                     </li>
 
 
-                                    <li ><a href="#">Công ty</a>
+                                    <li ><a href="index.php?page=user_list_tintuc">Công ty</a>
                                         
                                     </li>
                                     <li ><a href="index.php?page=job_list_company">Tạo bài đăng tuyển dụng</a>

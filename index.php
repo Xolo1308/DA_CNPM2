@@ -56,7 +56,7 @@ case 'delete_job_company':
     }
     break;
 
-    case 'tt_list_company':
+case 'tt_list_company':
 case 'tt_add_company':
 case 'tt_edit_company':
 case 'tt_delete_company':
@@ -80,6 +80,58 @@ case 'tt_delete_company':
     }
     break;
 
+case 'user_list_job':
+case 'user_detail_job':
+case 'user_tt_company':
+case 'tt_delete_company':
+    if (isset($_SESSION["role"]) && $_SESSION["role"] == '0') {
+        switch ($page) {
+            case 'user_list_job':
+                include 'view/user/list_tintuc.php';
+                break;
+            case 'user_detail_job':
+                include 'view/user/detail_job.php';
+                break;
+            case 'user_tt_company':
+                include 'view/user/tt_company.php';
+                break;
+            case 'tt_delete_company':
+                include 'view/user/include/company/delete_company.php';
+                break;
+        }
+    } else {
+        echo "<script>alert('Chỉ doanh nghiệp mới được truy cập mục này!'); window.location='index.php';</script>";
+    }
+    break;
+
+
+case 'user_list_cv':
+case 'user_detail_cv':
+case 'user_process_cv':
+case 'user_process_pdf':
+case 'user_list_pdf':
+    if (isset($_SESSION["role"]) && $_SESSION["role"] == '0') {
+        switch ($page) {
+            case 'user_list_cv':
+                include 'view/user/list_cv.php';
+                break;
+            case 'user_detail_cv':
+                include 'view/user/detail_cv.php';
+                break;
+             case 'user_process_cv':
+                include 'view/user/process_cv.php';
+                break;
+             case 'user_process_pdf':
+                include 'view/user/generate_pdf.php';
+                break;
+                 case 'user_list_pdf':
+                include 'view/user/list_pdf.php';
+                break;
+        }
+    } else {
+        echo "<script>alert('Chỉ doanh nghiệp mới được truy cập mục này!'); window.location='index.php';</script>";
+    }
+    break;
     // ========== TRANG CHỦ MẶC ĐỊNH ==========
     default:
         include 'view/user/include/home.php';

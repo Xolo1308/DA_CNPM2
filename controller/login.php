@@ -26,10 +26,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if ($result->num_rows > 0) {
         $user = $result->fetch_assoc();
 
-
         $_SESSION["id"] = $user["id"];
         $_SESSION["email"] = $user["email"];
         $_SESSION["name"] = $user["name"]; 
+        $_SESSION["phone"] = $phone["phone"];
+         $_SESSION["address"] = $addess[""];
+
         $_SESSION["role"] = $user["role"]; 
 
         // 6. Chuyển hướng theo role
